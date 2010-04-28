@@ -1,103 +1,94 @@
-// Boxer plugin
-$.widget("ui.boxer", $.extend({}, $.ui.mouse, {
 
-  _init: function() {
-    this.element.addClass("ui-boxer");
+$.widget("ui.boxer", $.ui.mouse, {
+	options: $.extend({}, $.ui.mouse.options, {
+		appendTo: 'body',
+		distance: 0
+ 	}),
+ 
+	_init: function() {
+		var self = this;
 
-    this.dragged = false;
+		this.element.addClass("ui-boxer");
 
-    this._mouseInit();
+		this.dragged = false;
 
-    this.helper = $(document.createElement('div'))
-      .css({border:'1px dotted black'})
-      .addClass("ui-boxer-helper");
-  },
+		var selectees;
 
-  destroy: function() {
-    this.element
-      .removeClass("ui-boxer ui-boxer-disabled")
-      .removeData("boxer")
-      .unbind(".boxer");
-    this._mouseDestroy();
+		this._mouseInit();
 
-    return this;
-  },
+		this.helper = $(document.createElement('div'))
+			.css({border:'1px dotted black'})
+			.addClass("ui-boxer-helper");
+	},
 
-  _mouseStart: function(event) {
-    var self = this;
+	destroy: function() {
+		this.element
+			.removeClass("ui-boxer ui-boxer-disabled")
+			.removeData("boxer")
+			.unbind(".selectable");
+		this._mouseDestroy();
 
-    this.opos = [event.pageX, event.pageY];
+		return this;
+	},
 
-    if (this.options.disabled)
-      return;
+	_mouseStart: function(event) {
+		var self = this;
 
-    var options = this.options;
+		this.opos = [event.pageX, event.pageY];
 
-    this._trigger("start", event);
+		if (this.options.disabled) {
+			return;
+		}
 
-    $(options.appendTo).append(this.helper);
+		var options = this.options;
 
-    this.helper.css({
-      "z-index": 100,
-      "position": "absolute",
-      "left": event.clientX,
-      "top": event.clientY,
-      "width": 0,
-      "height": 0
-    });
-  },
+		this._trigger("start", event);
 
-  _mouseDrag: function(event) {
-    var self = this;
-    this.dragged = true;
+		$(options.appendTo).append(this.helper);
 
-    if (this.options.disabled)
-      return;
+		this.helper.css({
+			"z-index": 100,
+			"position": "absolute",
+			"left": event.clientX,
+			"top": event.clientY,
+			"width": 0,
+			"height": 0
+		});
+	},
 
-    var options = this.options;
+	_mouseDrag: function(event) {
+		var self = this;
+		this.dragged = true;
 
-    var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY;
-    if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
-    if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
-    this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
-    
-    this._trigger("drag", event);
+		if (this.options.disabled)
+			return;
 
-    return false;
-  },
+		var options = this.options;
 
-  _mouseStop: function(event) {
-    var self = this;
+		var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY;
+		if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
+		if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
+		this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+		
+		this._trigger("drag", event);
 
-    this.dragged = false;
+		return false;
+	},
 
-    var options = this.options;
+	_mouseStop: function(event) {
+		var self = this;
 
-    var clone = this.helper.clone()
-      .removeClass('ui-boxer-helper').appendTo(this.element);
+		this.dragged = false;
 
-    this._trigger("stop", event, { box: clone });
+		var options = this.options;
 
-    this.helper.remove();
+		var test = this.element;
+		var clone = this.helper.clone().removeClass('ui-boxer-helper').appendTo(this.element);
 
-    return false;
-  }
+		this._trigger("stop", event, { box: clone });
 
-}));
-$.extend($.ui.boxer, {
-  defaults: $.extend({}, $.ui.mouse.defaults, {
-    appendTo: 'body',
-    distance: 0
-  })
-});
+		this.helper.remove();
 
-// Using the boxer plugin
-$('#canvas').boxer({
-  stop: function(event, ui) {
-    var offset = ui.box.offset();
-    ui.box.css({ border: '1px solid white', background: 'orange', padding: '0.5em' })
-      .append('x:' + offset.left + ', y:' + offset.top)
-      .append('<br>')
-      .append('w:' + ui.box.width() + ', h:' + ui.box.height());
-  }
+		return false;
+	}
 });

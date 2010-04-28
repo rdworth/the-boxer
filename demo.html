@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Drawing Rectangles with Boxer</title>
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css" type="text/css" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-  <style type="text/css" media="screen">
-  body { background-color: #000; font: 16px Helvetica, Arial; color: #fff; }
-  #canvas { height: 500px; background: white; }
-  </style>
+<meta charset="UTF-8" />
+<title>Drawing Rectangles with The Boxer</title>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<script src="jquery.boxer.js"></script>
+
+<style type="text/css" media="screen">
+body { background-color: #000; font: 16px Helvetica, Arial; color: #fff; }
+#canvas { height: 500px; background: white; }
+</style>
+
+<script>jQuery(function($) {
+
+// Using the boxer plugin
+$('#canvas').boxer({
+	stop: function(event, ui) {
+		var offset = ui.box.offset();
+		ui.box.css({ border: '1px solid white', background: 'orange', padding: '0.5em' })
+			.append('x:' + offset.left + ', y:' + offset.top)
+			.append('<br>')
+			.append('w:' + ui.box.width() + ', h:' + ui.box.height());
+	}
+});
+
+});</script>
+
 </head>
 <body>
 
@@ -18,6 +37,5 @@
 
 <div id="canvas"></div>
 
-<script src="jquery.boxer.js"></script>
 </body>
 </html>
