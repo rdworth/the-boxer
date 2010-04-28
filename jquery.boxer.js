@@ -17,7 +17,7 @@ $.widget("ui.boxer", $.extend({}, $.ui.mouse, {
     this.element
       .removeClass("ui-boxer ui-boxer-disabled")
       .removeData("boxer")
-      .unbind(".selectable");
+      .unbind(".boxer");
     this._mouseDestroy();
 
     return this;
@@ -74,7 +74,7 @@ $.widget("ui.boxer", $.extend({}, $.ui.mouse, {
     var options = this.options;
 
     var clone = this.helper.clone()
-      .removeClass('ui-boxer-helper').appendTo(options.appendTo);
+      .removeClass('ui-boxer-helper').appendTo(this.element);
 
     this._trigger("stop", event, { box: clone });
 
