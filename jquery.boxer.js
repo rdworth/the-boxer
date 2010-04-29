@@ -4,6 +4,10 @@
  *
  * Copyright 2010, Richard D. Worth
  * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Depends:
+ *	jquery.ui.widget.js
+ *	jquery.ui.mouse.js
  */
 (function($) {
 
