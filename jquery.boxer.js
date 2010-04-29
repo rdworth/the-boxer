@@ -1,94 +1,82 @@
 
 $.widget("the.boxer", $.ui.mouse, {
-	options: $.extend({}, $.ui.mouse.options, {
-		appendTo: 'body',
+
+	options: $.extend( {}, $.ui.mouse.options, {
+		appendTo: "body",
 		distance: 0
  	}),
  
 	_init: function() {
-		var self = this;
-
-		this.element.addClass("the-boxer");
-
-		this.dragged = false;
-
-		var selectees;
-
 		this._mouseInit();
 
-		this.helper = $(document.createElement('div'))
-			.css({border:'1px dotted black'})
-			.addClass("the-boxer-helper");
+		this.element
+			.addClass( "the-boxer" + ( this.options.disabled ? " the-boxer-disabled" : "" ) );
+
+		this.box = $();
 	},
 
 	destroy: function() {
-		this.element
-			.removeClass("the-boxer the-boxer-disabled")
-			.removeData("boxer")
-			.unbind(".selectable");
 		this._mouseDestroy();
 
-		return this;
+		this.element
+			.removeClass( "the-boxer the-boxer-disabled" );
 	},
 
 	_mouseStart: function(event) {
-		var self = this;
-
-		this.opos = [event.pageX, event.pageY];
-
-		if (this.options.disabled) {
+		if ( this.options.disabled ) {
 			return;
 		}
 
-		var options = this.options;
+		this.opos = [ event.pageX, event.pageY ];
 
-		this._trigger("start", event);
+		this.box = $( "<div></div>" )
+			.addClass( "the-boxer-box" )
+			.css({
+				"border": "1px dotted black",
+				"z-index": 100,
+				"position": "absolute",
+				"left": event.clientX,
+				"top": event.clientY,
+				"width": 0,
+				"height": 0
+			})
+			.appendTo( this.options.appendTo );
 
-		$(options.appendTo).append(this.helper);
-
-		this.helper.css({
-			"z-index": 100,
-			"position": "absolute",
-			"left": event.clientX,
-			"top": event.clientY,
-			"width": 0,
-			"height": 0
-		});
+		this._trigger( "start", event, { box: this.box } );
 	},
 
 	_mouseDrag: function(event) {
-		var self = this;
-		this.dragged = true;
-
-		if (this.options.disabled)
+		if ( this.options.disabled ) {
 			return;
+		}
 
-		var options = this.options;
+		var x1 = this.opos[ 0 ],
+			y1 = this.opos[ 1 ],
+			x2 = event.pageX,
+			y2 = event.pageY;
 
-		var x1 = this.opos[0], y1 = this.opos[1], x2 = event.pageX, y2 = event.pageY;
-		if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
-		if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
-		this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+		this.box.css({
+			"left": Math.min(x1, x2),
+			"top": Math.min(y1, y2),
+			"width": x1 > x2 ? x1 - x2 : x2 - x1,
+			"height": y1 > y2 ? y1 - y2 : y2 - y1
+		});
 		
-		this._trigger("drag", event);
-
-		return false;
+		this._trigger( "drag", event, { box: this.box } );
 	},
 
 	_mouseStop: function(event) {
-		var self = this;
+		if ( this.options.disabled ) {
+			return;
+		}
 
-		this.dragged = false;
+		this.box
+			.removeClass( "the-boxer-box" )
+			.appendTo( this.element );
 
-		var options = this.options;
+		this._trigger( "stop", event, { box: this.box } );
 
-		var test = this.element;
-		var clone = this.helper.clone().removeClass('the-boxer-helper').appendTo(this.element);
-
-		this._trigger("stop", event, { box: clone });
-
-		this.helper.remove();
-
-		return false;
+		this.box = $();
 	}
+
 });
