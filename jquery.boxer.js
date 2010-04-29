@@ -56,8 +56,8 @@ $.widget("the.boxer", $.ui.mouse, {
 			y2 = event.pageY;
 
 		this.box.css({
-			"left": Math.min(x1, x2),
-			"top": Math.min(y1, y2),
+			"left": Math.min( x1, x2 ),
+			"top": Math.min( y1, y2 ),
 			"width": x1 > x2 ? x1 - x2 : x2 - x1,
 			"height": y1 > y2 ? y1 - y2 : y2 - y1
 		});
