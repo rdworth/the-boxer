@@ -18,18 +18,18 @@ body { background-color: #000; font: 16px Helvetica, Arial; color: #fff; }
 <script>jQuery(function($) {
 
 // Using the boxer plugin
-$('#canvas').boxer({
+$( "#canvas" ).boxer({
 	stop: function(event, ui) {
 		var offset = ui.box.offset();
 		ui.box.css({
-			'border': '1px solid white',
-			'background': 'orange'}
-		);
-		$('<div class="box-inner"></div>')
-			.append('x:' + offset.left + ', y:' + offset.top)
-			.append('<br>')
-			.append('w:' + ui.box.width() + ', h:' + ui.box.height())
-			.appendTo(ui.box);
+			"border": "1px solid white",
+			"background": "orange"
+		});
+		$( "<div class='box-inner'></div>" )
+			.append( "x:" + offset.left + ", y:" + offset.top )
+			.append( "<br>" )
+			.append( "w:" + ui.box.width() + ", h:" + ui.box.height() )
+			.appendTo( ui.box );
 	}
 });
 
