@@ -12,6 +12,7 @@
 <style type="text/css" media="screen">
 body { background-color: #000; font: 16px Helvetica, Arial; color: #fff; }
 #canvas { height: 500px; background: white; }
+.box-inner { padding: 0.5em; }
 </style>
 
 <script>jQuery(function($) {
@@ -20,10 +21,15 @@ body { background-color: #000; font: 16px Helvetica, Arial; color: #fff; }
 $('#canvas').boxer({
 	stop: function(event, ui) {
 		var offset = ui.box.offset();
-		ui.box.css({ border: '1px solid white', background: 'orange', padding: '0.5em' })
+		ui.box.css({
+			'border': '1px solid white',
+			'background': 'orange'}
+		);
+		$('<div class="box-inner"></div>')
 			.append('x:' + offset.left + ', y:' + offset.top)
 			.append('<br>')
-			.append('w:' + ui.box.width() + ', h:' + ui.box.height());
+			.append('w:' + ui.box.width() + ', h:' + ui.box.height())
+			.appendTo(ui.box);
 	}
 });
 
