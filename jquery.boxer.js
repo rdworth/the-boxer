@@ -1,4 +1,6 @@
 
+(function($) {
+
 $.widget("the.boxer", $.ui.mouse, {
 
 	options: $.extend( {}, $.ui.mouse.options, {
@@ -80,3 +82,5 @@ $.widget("the.boxer", $.ui.mouse, {
 	}
 
 });
+
+}( jQuery ));
