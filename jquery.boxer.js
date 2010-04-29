@@ -1,5 +1,5 @@
 
-$.widget("ui.boxer", $.ui.mouse, {
+$.widget("the.boxer", $.ui.mouse, {
 	options: $.extend({}, $.ui.mouse.options, {
 		appendTo: 'body',
 		distance: 0
@@ -8,7 +8,7 @@ $.widget("ui.boxer", $.ui.mouse, {
 	_init: function() {
 		var self = this;
 
-		this.element.addClass("ui-boxer");
+		this.element.addClass("the-boxer");
 
 		this.dragged = false;
 
@@ -18,12 +18,12 @@ $.widget("ui.boxer", $.ui.mouse, {
 
 		this.helper = $(document.createElement('div'))
 			.css({border:'1px dotted black'})
-			.addClass("ui-boxer-helper");
+			.addClass("the-boxer-helper");
 	},
 
 	destroy: function() {
 		this.element
-			.removeClass("ui-boxer ui-boxer-disabled")
+			.removeClass("the-boxer the-boxer-disabled")
 			.removeData("boxer")
 			.unbind(".selectable");
 		this._mouseDestroy();
@@ -83,7 +83,7 @@ $.widget("ui.boxer", $.ui.mouse, {
 		var options = this.options;
 
 		var test = this.element;
-		var clone = this.helper.clone().removeClass('ui-boxer-helper').appendTo(this.element);
+		var clone = this.helper.clone().removeClass('the-boxer-helper').appendTo(this.element);
 
 		this._trigger("stop", event, { box: clone });
 
