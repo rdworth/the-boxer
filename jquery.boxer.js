@@ -1,4 +1,10 @@
-
+/*!
+ * jQuery Boxer
+ * http://github.com/rdworth/the-boxer
+ *
+ * Copyright 2010, Richard D. Worth
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ */
 (function($) {
 
 $.widget("the.boxer", $.ui.mouse, {
